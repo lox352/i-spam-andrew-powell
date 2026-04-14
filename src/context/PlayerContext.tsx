@@ -34,7 +34,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const register = useCallback(async (name: string) => {
-    const id = crypto.randomUUID();
+    const id = crypto.randomUUID?.() ??
+      `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
     await createPlayer(id, name);
     const p = await getPlayer(id);
     if (p) {

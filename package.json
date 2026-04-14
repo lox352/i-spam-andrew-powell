@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "clear-db": "node scripts/clear-db.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
