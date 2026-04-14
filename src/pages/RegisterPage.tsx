@@ -27,7 +27,7 @@ export default function RegisterPage() {
   return (
     <div className="register-page">
       <div className="register-card">
-        <h1>🎉 Andrew's Birthday Challenges</h1>
+        <h1>🎉 I Spam Andrew Powell</h1>
         <p>Enter your name to start competing!</p>
         <form onSubmit={handleSubmit}>
           <input
