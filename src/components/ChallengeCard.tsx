@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { Challenge, ChallengeCompletion } from "../types";
 import VariableInput from "./VariableInput";
 
@@ -22,17 +22,18 @@ export default function ChallengeCard({
   const isCompleted = completion?.completed ?? false;
   const points = completion?.points ?? 0;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   return (
     <div
       className={`challenge-card ${isCompleted ? "completed" : ""}`}
       onClick={() => {
-        if (challenge.type === "fixed") onToggle(challenge.id);
+        if (challenge.type === "fixed" || challenge.type === "competition") onToggle(challenge.id);
       }}
-      role={challenge.type === "fixed" ? "button" : undefined}
-      tabIndex={challenge.type === "fixed" ? 0 : undefined}
+      role={challenge.type === "fixed" || challenge.type === "competition" ? "button" : undefined}
+      tabIndex={challenge.type === "fixed" || challenge.type === "competition" ? 0 : undefined}
       onKeyDown={(e) => {
-        if (challenge.type === "fixed" && (e.key === "Enter" || e.key === " ")) {
+        if ((challenge.type === "fixed" || challenge.type === "competition") && (e.key === "Enter" || e.key === " ")) {
           e.preventDefault();
           onToggle(challenge.id);
         }
@@ -41,12 +42,34 @@ export default function ChallengeCard({
       <div className="card-top">
         <span className="card-check">{isCompleted ? "✅" : "⬜"}</span>
         <span className="card-text">{challenge.text}</span>
-        <span className="card-points">
-          {challenge.type === "fixed"
-            ? `${challenge.basePoints} pts`
-            : `${points} pts`}
-        </span>
+        <div className="card-badge-col">
+          <span className="card-points">
+            {challenge.type === "competition"
+              ? `${challenge.basePoints} + up to ${challenge.winnerPoints} pts`
+              : challenge.type === "fixed"
+              ? `${challenge.basePoints} pts`
+              : `${points} pts`}
+          </span>
+          {challenge.info && (
+            <button
+              type="button"
+              className="card-info-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowInfo((v) => !v);
+              }}
+              aria-label="More info"
+            >
+              i
+            </button>
+          )}
+        </div>
       </div>
+      {showInfo && challenge.info && (
+        <div className="card-info" onClick={(e) => e.stopPropagation()}>
+          {challenge.info}
+        </div>
+      )}
       {challenge.type === "variable" && (
         <VariableInput
           count={completion?.count ?? 0}
@@ -61,7 +84,7 @@ export default function ChallengeCard({
               <input
                 type="text"
                 className="note-input"
-                placeholder="Add a note..."
+                placeholder={challenge.type === "competition" ? "Describe your placement or upload a photo..." : "Add a note..."}
                 value={completion?.note ?? ""}
                 onChange={(e) => onNoteChange(challenge.id, e.target.value)}
               />

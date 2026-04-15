@@ -4,8 +4,10 @@ export interface Challenge {
   id: string;
   text: string;
   basePoints: number;
-  type: "fixed" | "variable";
+  type: "fixed" | "variable" | "competition";
   unit?: string;
+  winnerPoints?: number;
+  info?: string;
 }
 
 export interface ChallengeCompletion {

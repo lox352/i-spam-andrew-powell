@@ -35,7 +35,7 @@ export function useChallenges() {
   const toggleFixed = useCallback(
     (challengeId: string) => {
       const challenge = challenges.find((c) => c.id === challengeId);
-      if (!challenge || challenge.type !== "fixed") return;
+      if (!challenge || (challenge.type !== "fixed" && challenge.type !== "competition")) return;
 
       setCompletions((prev) => {
         const current = prev[challengeId];

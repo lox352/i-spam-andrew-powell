@@ -5,7 +5,9 @@ import ConfettiOverlay from "../components/ConfettiOverlay";
 export default function ChallengesPage() {
   const { challenges, completions, toggleFixed, setVariableCount, setNote, uploadPhoto } = useChallenges();
 
-  const sortedChallenges = [...challenges].sort((a, b) => a.basePoints - b.basePoints);
+  const sortedChallenges = [...challenges].sort((a, b) =>
+    (a.basePoints + (a.winnerPoints ?? 0)) - (b.basePoints + (b.winnerPoints ?? 0))
+  );
 
   const hasAnyCompletion = Object.values(completions).some((c) => c.completed);
 
