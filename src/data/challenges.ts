@@ -18,7 +18,6 @@ export const challenges: Challenge[] = [
   { id: "15", text: "Andrew performs a magic trick for you", basePoints: 10, type: "fixed" },
   { id: "16", text: "Andrew juggles for you", basePoints: 1, type: "variable", unit: "simultaneously juggled item" },
   { id: "17", text: "Write Andrew a poem or haiku", basePoints: 5, type: "fixed" },
-  { id: "18", text: "Buy Andrew flowers", basePoints: 10, type: "fixed" },
   { id: "20", text: "Get Andrew tickets to a play or show", basePoints: 50, type: "fixed" },
   { id: "21", text: "Name a star after Andrew", basePoints: 50, type: "fixed" },
   { id: "22", text: "Make Andrew cry from pure joy or laughter", basePoints: 50, type: "fixed" },

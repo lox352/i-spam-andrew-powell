@@ -6,7 +6,10 @@ export default function Layout() {
   return (
     <div className="app-layout">
       <header className="app-header">
-        <h1>🎂 Powell Play: The Birthday Trials 🎉</h1>
+        <h1>
+          <span className="title-main">Powell Play</span>
+          <span className="title-sub">🎂 The Birthday Trials 🎉</span>
+        </h1>
       </header>
       <PlayerScoreBanner />
       <main className="app-main">
