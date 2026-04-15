@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import type { Challenge, ChallengeCompletion } from "../types";
 import VariableInput from "./VariableInput";
 
@@ -6,6 +7,8 @@ interface ChallengeCardProps {
   completion?: ChallengeCompletion;
   onToggle: (id: string) => void;
   onVariableChange: (id: string, count: number) => void;
+  onNoteChange?: (id: string, note: string) => void;
+  onPhotoUpload?: (id: string, file: File) => void;
 }
 
 export default function ChallengeCard({
@@ -13,9 +16,12 @@ export default function ChallengeCard({
   completion,
   onToggle,
   onVariableChange,
+  onNoteChange,
+  onPhotoUpload,
 }: ChallengeCardProps) {
   const isCompleted = completion?.completed ?? false;
   const points = completion?.points ?? 0;
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div
@@ -47,6 +53,52 @@ export default function ChallengeCard({
           unit={challenge.unit ?? "item"}
           onChange={(count) => onVariableChange(challenge.id, count)}
         />
+      )}
+      {isCompleted && (
+        <div className="card-extras" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <div className="note-row">
+            {onNoteChange && (
+              <input
+                type="text"
+                className="note-input"
+                placeholder="Add a note..."
+                value={completion?.note ?? ""}
+                onChange={(e) => onNoteChange(challenge.id, e.target.value)}
+              />
+            )}
+            {onPhotoUpload && (
+              <>
+                <button
+                  className="photo-upload-btn"
+                  onClick={() => fileInputRef.current?.click()}
+                  title="Upload photo"
+                  type="button"
+                >
+                  📷
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) onPhotoUpload(challenge.id, file);
+                    e.target.value = "";
+                  }}
+                />
+              </>
+            )}
+          </div>
+          {completion?.photoUrl && (
+            <img
+              src={completion.photoUrl}
+              alt="Challenge photo"
+              className="card-photo-thumbnail"
+              onClick={() => window.open(completion.photoUrl, "_blank")}
+            />
+          )}
+        </div>
       )}
     </div>
   );

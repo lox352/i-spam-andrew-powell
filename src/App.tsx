@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import RegisterPage from "./pages/RegisterPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import FeedPage from "./pages/FeedPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { player, loading } = usePlayerContext();
@@ -38,6 +39,7 @@ export default function App() {
         }
       >
         <Route path="/challenges" element={<ChallengesPage />} />
+        <Route path="/feed" element={<FeedPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

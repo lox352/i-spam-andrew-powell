@@ -1,6 +1,7 @@
 import { readFileSync } from "fs";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { getStorage, ref, listAll, deleteObject } from "firebase/storage";
 
 const env = Object.fromEntries(
   readFileSync(".env", "utf-8")
@@ -22,14 +23,38 @@ const app = initializeApp({
 });
 
 const db = getFirestore(app);
-const snapshot = await getDocs(collection(db, "players"));
+const storage = getStorage(app);
 
+// Delete all players
+const snapshot = await getDocs(collection(db, "players"));
 if (snapshot.empty) {
   console.log("No players to delete.");
 } else {
   console.log(`Deleting ${snapshot.size} player(s)...`);
   await Promise.all(snapshot.docs.map((d) => deleteDoc(doc(db, "players", d.id))));
-  console.log("Done!");
+  console.log("Players deleted!");
+}
+
+// Delete all photos
+async function deleteFolder(folderRef) {
+  const { items, prefixes } = await listAll(folderRef);
+  await Promise.all([
+    ...items.map((item) => deleteObject(item)),
+    ...prefixes.map((prefix) => deleteFolder(prefix)),
+  ]);
+  return items.length;
+}
+
+const photosRef = ref(storage, "photos");
+try {
+  const count = await deleteFolder(photosRef);
+  console.log(count > 0 ? `Deleted ${count} photo(s)!` : "No photos to delete.");
+} catch (e) {
+  if (e.code === "storage/object-not-found") {
+    console.log("No photos to delete.");
+  } else {
+    throw e;
+  }
 }
 
 process.exit(0);

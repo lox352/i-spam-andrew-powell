@@ -27,7 +27,12 @@ export default function RegisterPage() {
   return (
     <div className="register-page">
       <div className="register-card">
-        <h1>🎉 I Spam Andrew Powell</h1>
+        <h1>🎂 Powell Play: The Birthday Trials 🎉</h1>
+        <div className="register-info">
+          <p><strong>How to play:</strong> Complete challenges throughout the day to earn points. Tap a challenge to mark it done, add a note or photo as proof, and climb the leaderboard.</p>
+          <p><strong>When:</strong> Today only! All challenges must be completed by end of day.</p>
+          <p><strong>Prizes:</strong> Top scorers may win something from the prize box (if Andrew is gracious enough) and the legendary Voldemort Candrew.</p>
+        </div>
         <p>Enter your name to start competing!</p>
         <form onSubmit={handleSubmit}>
           <input

@@ -7,6 +7,10 @@ export default function BottomNav() {
         <span className="nav-icon">📋</span>
         <span className="nav-label">Challenges</span>
       </NavLink>
+      <NavLink to="/feed" className={({ isActive }) => isActive ? "nav-tab active" : "nav-tab"}>
+        <span className="nav-icon">📣</span>
+        <span className="nav-label">Feed</span>
+      </NavLink>
       <NavLink to="/leaderboard" className={({ isActive }) => isActive ? "nav-tab active" : "nav-tab"}>
         <span className="nav-icon">🏆</span>
         <span className="nav-label">Leaderboard</span>

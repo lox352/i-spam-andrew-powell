@@ -13,6 +13,8 @@ export interface ChallengeCompletion {
   points: number;
   completedAt: Timestamp | null;
   count?: number;
+  note?: string;
+  photoUrl?: string;
 }
 
 export interface Player {
